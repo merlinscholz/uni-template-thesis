@@ -1,4 +1,11 @@
 % In dieser Datei ist es eigentlich nicht nötig etwas überhalb der Markierung zu verändern
+\usepackage{ifthen}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{textcomp}
+\pdfcompresslevel=9
+\pdfadjustspacing=1 
 
 % Farben
 \usepackage[dvipsnames]{xcolor}
@@ -21,9 +28,10 @@
 
 
 
+
+
 \usepackage[automark]{scrlayer-scrpage}
 
-\let\MakeMarkcase\spacedlowsmallcaps
 \renewcommand{\chaptermark}[1]{\markboth{\spacedlowsmallcaps{#1}}{\spacedlowsmallcaps{#1}}}
 \renewcommand{\sectionmark}[1]{\markright{\textsc{\thesection}\enspace\spacedlowsmallcaps{#1}}}
 \lehead{\mbox{\llap{\small\pagemark\kern2em}\headmark\hfil}}
@@ -117,8 +125,6 @@
 			\renewcommand{\cftchapfont}{\normalfont}%
 			\renewcommand{\cftchappagefont}{\normalfont}%
 
-			
-
 			% sections
 			\setlength{\cftbeforesecskip}{.1em}%
 			\setlength{\beforebibskip}{1em}%
@@ -144,24 +150,8 @@
 			
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 % Seitendimensionen
 \KOMAoptions{DIV=11, BCOR=10mm}
-\areaset[current]{336pt}{750pt} % ~ 336 * factor 2 + 33 head + 42 \the\footskip
-% \areaset{336pt}{761pt} % 686 (factor 2.2) + 33 head + 42 head \the\footskip 10pt
 \setlength{\marginparwidth}{7em}%
 \setlength{\marginparsep}{2em}%
 
@@ -180,6 +170,10 @@
 \usepackage{natbib}
 \usepackage{xspace}
 
+% Schriftart
+\usepackage{newpxtext,newpxmath}
+\useosf
+\usepackage[euler-digits]{eulervm}
 
 % Grafiken/Plots
 \usepackage{flafter}
