@@ -1,9 +1,11 @@
 % In dieser Datei ist es eigentlich nicht nötig etwas überhalb der Markierung zu verändern
-\usepackage{ifthen}
-
+% Teilweise aus classicthesis (https://bitbucket.org/amiede/classicthesis/src/master/classicthesis.sty) übernommen
+% Grundlegende Packages
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{textcomp}
+
+% PDF Options
 \pdfcompresslevel=9
 \pdfadjustspacing=1 
 
@@ -19,6 +21,7 @@
 \definecolor{webbrown}{rgb}{.6,0,0}
 \definecolor{CTsemi}{gray}{0.55}
 
+
 \usepackage{microtype}
 \usepackage{textcase}
 
@@ -26,135 +29,80 @@
 \DeclareRobustCommand{\spacedallcaps}[1]{\textls[160]{\scshape\MakeTextUppercase{#1}}}
 \DeclareRobustCommand{\spacedlowsmallcaps}[1]{\textls[80]{\scshape\MakeTextLowercase{#1}}}
 
-
-
-
-
 \usepackage[automark]{scrlayer-scrpage}
+\let\MakeMarkcase\spacedlowsmallcaps
 
-\renewcommand{\chaptermark}[1]{\markboth{\spacedlowsmallcaps{#1}}{\spacedlowsmallcaps{#1}}}
-\renewcommand{\sectionmark}[1]{\markright{\textsc{\thesection}\enspace\spacedlowsmallcaps{#1}}}
 \lehead{\mbox{\llap{\small\pagemark\kern2em}\headmark\hfil}}
 \rohead{\mbox{\hfil{\headmark}\rlap{\small\kern2em\pagemark}}}
 \ofoot[\small\pagemark]{}
 \renewcommand{\headfont}{\small}
-	\def\toc@heading{%
-		\chapter*{\contentsname}
-		\@mkboth{\spacedlowsmallcaps{\contentsname}}{\spacedlowsmallcaps{\contentsname}}} %%%IVO: what does this do?
+\DeclareFixedFont{\chapterNumber}{U}{eur}{b}{n}{70}
+
+% Überschriften
+% TODO: Remove titlesec dependency
+	\usepackage[newparttoc]{titlesec}
+	% Chapters
+	\renewcommand{\chaptermark}[1]{\markboth{\spacedlowsmallcaps{#1}}{\spacedlowsmallcaps{#1}}}
+	\titleformat{\chapter}[display]%
+	{\relax}{\mbox{}\marginpar{\vspace*{-3\baselineskip}\color{CTsemi}\chapterNumber\thechapter}}{0pt}%
+	{\raggedright\spacedallcaps}[\normalsize\vspace*{.8\baselineskip}\titlerule]%
+	
+	% Sections
+	\renewcommand{\sectionmark}[1]{\markright{\textsc{\thesection}\enspace\spacedlowsmallcaps{#1}}}
+	\titleformat{\section}
+	{\relax}{\textsc{\MakeTextLowercase{\thesection}}}{1em}{\spacedlowsmallcaps}
+	% Subsections
+	\titleformat{\subsection}
+		{\relax}{\textsc{\MakeTextLowercase{\thesubsection}}}{1em}{\normalsize\itshape}
+	% Subsubsections
+	\titleformat{\subsubsection}
+		{\relax}{\textsc{\MakeTextLowercase{\thesubsubsection}}}{1em}{\normalsize\itshape}
+	% Paragraphs
+	\titleformat{\paragraph}[runin]
+		{\normalfont\normalsize}{\theparagraph}{0pt}{\spacedlowsmallcaps}
+	% Description Labels
+		\renewcommand{\descriptionlabel}[1]{\hspace*{\labelsep}\spacedlowsmallcaps{#1}}   % spacedlowsmallcaps textit textsc
+	% Abstände
+	\titlespacing*{\chapter}{0pt}{1\baselineskip}{1.2\baselineskip}
+	\titlespacing*{\section}{0pt}{1.25\baselineskip}{1\baselineskip}
+	\titlespacing*{\subsection}{0pt}{1.25\baselineskip}{1\baselineskip}
+	\titlespacing*{\paragraph}{0pt}{1\baselineskip}{1\baselineskip}
 
 
+% ToC
+	\usepackage[titles]{tocloft}
 
+	% Seitenzahlen direkt nach Titel
+	\renewcommand{\cftpartleader}{\hspace{1.5em}}%
+	\renewcommand{\cftpartafterpnum}{\cftparfillskip}%
+	\renewcommand{\cftchapleader}{\hspace{1.5em}}%
+	\renewcommand{\cftchapafterpnum}{\cftparfillskip}%
+	\renewcommand{\cftsubsecleader}{\hspace{1.5em}}%
+	\renewcommand{\cftsubsecafterpnum}{\cftparfillskip}%
 
-			\DeclareFixedFont{\chapterNumber}{U}{eur}{b}{n}{70}
+	% Chapter Formatierung
+	\renewcommand{\cftchappresnum}{\spacedlowsmallcaps}%
+	\renewcommand{\cftchapaftersnumb}{\spacedlowsmallcaps}%
+	\renewcommand{\cftchapfont}{\spacedlowsmallcaps}%
+	\renewcommand{\cftchappagefont}{\normalfont}%
 
+	% Section Formatierung
+	\renewcommand{\cftsecpresnum}{\scshape\MakeTextLowercase}%
+	\renewcommand{\cftsecfont}{\normalfont}%
+	\renewcommand{\cftsecpagefont}{\normalfont}%
 
-
-
-			\RequirePackage[newparttoc]{titlesec} % newparttoc to write \part to .toc with \numberline
-			\def\ttl@addcontentsline#1#2{% this is from titlesec.sty
-			  \addcontentsline{toc}{#1}{\ifttl@toclabel\ttl@a\fi{#2}}% write titles as a group inside {}
-			  \nobreak}
-			% parts
-			
-			% chapters
-			% something like Bringhurst
-				\titleformat{\chapter}[display]%
-				{\relax}{\mbox{}\marginpar{\vspace*{-3\baselineskip}\color{CTsemi}\chapterNumber\thechapter}}{0pt}%
-				{\raggedright\spacedallcaps}[\normalsize\vspace*{.8\baselineskip}\titlerule]%
-			
-			% sections \FloatBarrier
-			\titleformat{\section}
-				{\relax}{\textsc{\MakeTextLowercase{\thesection}}}{1em}{\spacedlowsmallcaps}
-			% subsections
-			\titleformat{\subsection}
-				{\relax}{\textsc{\MakeTextLowercase{\thesubsection}}}{1em}{\normalsize\itshape}
-			% subsubsections
-			\titleformat{\subsubsection}
-				{\relax}{\textsc{\MakeTextLowercase{\thesubsubsection}}}{1em}{\normalsize\itshape}
-			% paragraphs
-			\titleformat{\paragraph}[runin]
-				{\normalfont\normalsize}{\theparagraph}{0pt}{\spacedlowsmallcaps}
-			% descriptionlabels
-				\renewcommand{\descriptionlabel}[1]{\hspace*{\labelsep}\spacedlowsmallcaps{#1}}   % spacedlowsmallcaps textit textsc
-			% spacing
-			\titlespacing*{\chapter}{0pt}{1\baselineskip}{1.2\baselineskip}
-			\titlespacing*{\section}{0pt}{1.25\baselineskip}{1\baselineskip}
-			\titlespacing*{\subsection}{0pt}{1.25\baselineskip}{1\baselineskip}
-			\titlespacing*{\paragraph}{0pt}{1\baselineskip}{1\baselineskip}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-			\PassOptionsToPackage{titles}{tocloft}
-			\RequirePackage{tocloft}
-			% avoid page numbers being right-aligned in fixed-size box
-			\newlength{\newnumberwidth}
-			\settowidth{\newnumberwidth}{999} % yields overfull hbox warnings for pages > 999
-			\cftsetpnumwidth{\newnumberwidth}
-			
-			% have the bib neatly positioned after the rest
-			\newlength{\beforebibskip}
-			\setlength{\beforebibskip}{0em}
-			
-			% space for more than nine chapters
-			\newlength{\newchnumberwidth}
-			\settowidth{\newchnumberwidth}{.} % <--- tweak here if more space required
-
-			
-% ToC Seitenzahlen direkt nach Titel
-\renewcommand{\cftpartleader}{\hspace{1.5em}}%
-\renewcommand{\cftpartafterpnum}{\cftparfillskip}%
-\renewcommand{\cftchapleader}{\hspace{1.5em}}%
-\renewcommand{\cftchapafterpnum}{\cftparfillskip}%
-\renewcommand{\cftsubsecleader}{\hspace{1.5em}}%
-\renewcommand{\cftsubsecafterpnum}{\cftparfillskip}%
-
-			% chapters
-			\renewcommand{\cftchappresnum}{\spacedlowsmallcaps}%
-			\renewcommand{\cftchapaftersnumb}{\spacedlowsmallcaps}%
-			\renewcommand{\cftchapfont}{\normalfont}%
-			\renewcommand{\cftchappagefont}{\normalfont}%
-
-			% sections
-			\setlength{\cftbeforesecskip}{.1em}%
-			\setlength{\beforebibskip}{1em}%
-				
-			\renewcommand{\cftsecpresnum}{\scshape\MakeTextLowercase}%
-			\renewcommand{\cftsecfont}{\normalfont}%
-			\renewcommand{\cftsecpagefont}{\normalfont}%
-
-			\renewcommand{\cftsecleader}{\hspace{1.5em}}%
-        	\renewcommand{\cftsecafterpnum}{\cftparfillskip}%
-			
-			% subsections
-			\renewcommand{\cftsubsecpresnum}{\scshape\MakeTextLowercase}%
-			\renewcommand{\cftsubsecfont}{\normalfont}%
-			
-			
-			\DeclareRobustCommand*{\deactivateaddvspace}{\let\addvspace\@gobble}%
-			\AtBeginDocument{%
-				\addtocontents{lof}{\deactivateaddvspace}%
-				\addtocontents{lot}{\deactivateaddvspace}%
-						
-			}
-			
+	\renewcommand{\cftsecleader}{\hspace{1.5em}}%
+	\renewcommand{\cftsecafterpnum}{\cftparfillskip}%
+	
+	% Subsection Formatierung
+	\renewcommand{\cftsubsecpresnum}{\scshape\MakeTextLowercase}%
+	\renewcommand{\cftsubsecfont}{\normalfont}%
 
 
 % Seitendimensionen
 \KOMAoptions{DIV=11, BCOR=10mm}
 \setlength{\marginparwidth}{7em}%
 \setlength{\marginparsep}{2em}%
-
 
 
 % Hyperrefs und URLs
