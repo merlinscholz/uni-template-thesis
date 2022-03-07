@@ -1,0 +1,61 @@
+\documentclass[twoside,openright,titlepage,fleqn,headinclude,11pt,a4paper,footinclude,cleardoubleempty,abstractoff]{scrreprt}
+
+
+% Thesis Template LS XII - PatRec
+% Modernisierte Version des nicht mehr kompilierbaren offiziellen Templates: https://patrec.cs.tu-dortmund.de/cms/en/home/Resources/index.html
+
+
+% Thesis Informationen
+\newcommand{\Autor}{Max Mustermann}
+\newcommand{\Titel}{Titel der Bachelor-/Masterarbeit, wahrscheinlich relativ lang}
+\newcommand{\Untertitel}{Bachelorarbeit}
+\newcommand{\Supervisor}{Prof. Dr.-Ing. Betreuer Eins\xspace}
+\newcommand{\otherSupervisor}{Betreuer Zwei, M.Sc.\xspace}
+\newcommand{\Faculty}{Fakultät für Informatik\xspace}
+\newcommand{\Department}{Lehrstuhl 12\xspace}
+     
+
+\include{preambel}
+
+
+\begin{document}
+\frenchspacing
+\raggedbottom
+\pagenumbering{roman}
+\pagestyle{plain}
+
+
+\selectlanguage{ngerman}
+%\selectlanguage{english}
+
+
+\include{coverpage/cover}
+\cleardoublepage
+
+
+\pagestyle{scrheadings}
+\pagenumbering{arabic} 
+\tableofcontents
+
+
+% Ggf. auskommentieren wenn der eigentliche Inhalt aufgrund von zu langer ToC auf der rechten Seite startet.
+%\cleardoublepage
+
+
+\include{chapter/einleitung}
+
+
+\appendix
+\include{appendix}
+
+
+\cleardoublepage
+\bibliographystyle{alpha}
+\bibliography{literatur}
+
+
+% Durch digital signierte Version ersetzen
+% Quelle: https://www.tu-dortmund.de/storages/tu_website/Dezernat_4/Dez._4.3/Allgemeine_Vordrucke/Eidesstattliche_Versicherung.pdf
+\includepdf[fitpaper=true, pages=-]{Eidesstattliche-Versicherung.pdf}
+
+\end{document}

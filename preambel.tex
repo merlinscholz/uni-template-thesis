@@ -1,0 +1,330 @@
+% In dieser Datei ist es eigentlich nicht nötig etwas überhalb der Markierung zu verändern
+
+% Farben
+\usepackage[dvipsnames]{xcolor}
+\definecolor{TUGreen}{rgb}{0.517,0.721,0.094}
+\definecolor{BrightGray}{gray}{0.9}
+\definecolor{DarkGray}{gray}{0.2}
+\definecolor{white}{rgb}{1,1,1}
+\definecolor{black}{rgb}{0,0,0}
+\definecolor{red}{rgb}{1,0,0}
+\definecolor{webgreen}{rgb}{0,.5,0}
+\definecolor{webbrown}{rgb}{.6,0,0}
+\definecolor{CTsemi}{gray}{0.55}
+
+\usepackage{microtype}
+\usepackage{textcase}
+
+
+\DeclareRobustCommand{\spacedallcaps}[1]{\textls[160]{\scshape\MakeTextUppercase{#1}}}
+\DeclareRobustCommand{\spacedlowsmallcaps}[1]{\textls[80]{\scshape\MakeTextLowercase{#1}}}
+
+
+
+\usepackage[automark]{scrlayer-scrpage}
+
+\let\MakeMarkcase\spacedlowsmallcaps
+\renewcommand{\chaptermark}[1]{\markboth{\spacedlowsmallcaps{#1}}{\spacedlowsmallcaps{#1}}}
+\renewcommand{\sectionmark}[1]{\markright{\textsc{\thesection}\enspace\spacedlowsmallcaps{#1}}}
+\lehead{\mbox{\llap{\small\pagemark\kern2em}\headmark\hfil}}
+\rohead{\mbox{\hfil{\headmark}\rlap{\small\kern2em\pagemark}}}
+\ofoot[\small\pagemark]{}
+\renewcommand{\headfont}{\small}
+	\def\toc@heading{%
+		\chapter*{\contentsname}
+		\@mkboth{\spacedlowsmallcaps{\contentsname}}{\spacedlowsmallcaps{\contentsname}}} %%%IVO: what does this do?
+
+
+
+
+			\DeclareFixedFont{\chapterNumber}{U}{eur}{b}{n}{70}
+
+
+
+
+			\RequirePackage[newparttoc]{titlesec} % newparttoc to write \part to .toc with \numberline
+			\def\ttl@addcontentsline#1#2{% this is from titlesec.sty
+			  \addcontentsline{toc}{#1}{\ifttl@toclabel\ttl@a\fi{#2}}% write titles as a group inside {}
+			  \nobreak}
+			% parts
+			
+			% chapters
+			% something like Bringhurst
+				\titleformat{\chapter}[display]%
+				{\relax}{\mbox{}\marginpar{\vspace*{-3\baselineskip}\color{CTsemi}\chapterNumber\thechapter}}{0pt}%
+				{\raggedright\spacedallcaps}[\normalsize\vspace*{.8\baselineskip}\titlerule]%
+			
+			% sections \FloatBarrier
+			\titleformat{\section}
+				{\relax}{\textsc{\MakeTextLowercase{\thesection}}}{1em}{\spacedlowsmallcaps}
+			% subsections
+			\titleformat{\subsection}
+				{\relax}{\textsc{\MakeTextLowercase{\thesubsection}}}{1em}{\normalsize\itshape}
+			% subsubsections
+			\titleformat{\subsubsection}
+				{\relax}{\textsc{\MakeTextLowercase{\thesubsubsection}}}{1em}{\normalsize\itshape}
+			% paragraphs
+			\titleformat{\paragraph}[runin]
+				{\normalfont\normalsize}{\theparagraph}{0pt}{\spacedlowsmallcaps}
+			% descriptionlabels
+				\renewcommand{\descriptionlabel}[1]{\hspace*{\labelsep}\spacedlowsmallcaps{#1}}   % spacedlowsmallcaps textit textsc
+			% spacing
+			\titlespacing*{\chapter}{0pt}{1\baselineskip}{1.2\baselineskip}
+			\titlespacing*{\section}{0pt}{1.25\baselineskip}{1\baselineskip}
+			\titlespacing*{\subsection}{0pt}{1.25\baselineskip}{1\baselineskip}
+			\titlespacing*{\paragraph}{0pt}{1\baselineskip}{1\baselineskip}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+			\PassOptionsToPackage{titles}{tocloft}
+			\RequirePackage{tocloft}
+			% avoid page numbers being right-aligned in fixed-size box
+			\newlength{\newnumberwidth}
+			\settowidth{\newnumberwidth}{999} % yields overfull hbox warnings for pages > 999
+			\cftsetpnumwidth{\newnumberwidth}
+			
+			% have the bib neatly positioned after the rest
+			\newlength{\beforebibskip}
+			\setlength{\beforebibskip}{0em}
+			
+			% space for more than nine chapters
+			\newlength{\newchnumberwidth}
+			\settowidth{\newchnumberwidth}{.} % <--- tweak here if more space required
+
+			
+% ToC Seitenzahlen direkt nach Titel
+\renewcommand{\cftpartleader}{\hspace{1.5em}}%
+\renewcommand{\cftpartafterpnum}{\cftparfillskip}%
+\renewcommand{\cftchapleader}{\hspace{1.5em}}%
+\renewcommand{\cftchapafterpnum}{\cftparfillskip}%
+\renewcommand{\cftsubsecleader}{\hspace{1.5em}}%
+\renewcommand{\cftsubsecafterpnum}{\cftparfillskip}%
+
+			% chapters
+			\renewcommand{\cftchappresnum}{\spacedlowsmallcaps}%
+			\renewcommand{\cftchapaftersnumb}{\spacedlowsmallcaps}%
+			\renewcommand{\cftchapfont}{\normalfont}%
+			\renewcommand{\cftchappagefont}{\normalfont}%
+
+			
+
+			% sections
+			\setlength{\cftbeforesecskip}{.1em}%
+			\setlength{\beforebibskip}{1em}%
+				
+			\renewcommand{\cftsecpresnum}{\scshape\MakeTextLowercase}%
+			\renewcommand{\cftsecfont}{\normalfont}%
+			\renewcommand{\cftsecpagefont}{\normalfont}%
+
+			\renewcommand{\cftsecleader}{\hspace{1.5em}}%
+        	\renewcommand{\cftsecafterpnum}{\cftparfillskip}%
+			
+			% subsections
+			\renewcommand{\cftsubsecpresnum}{\scshape\MakeTextLowercase}%
+			\renewcommand{\cftsubsecfont}{\normalfont}%
+			
+			
+			\DeclareRobustCommand*{\deactivateaddvspace}{\let\addvspace\@gobble}%
+			\AtBeginDocument{%
+				\addtocontents{lof}{\deactivateaddvspace}%
+				\addtocontents{lot}{\deactivateaddvspace}%
+						
+			}
+			
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+% Seitendimensionen
+\KOMAoptions{DIV=11, BCOR=10mm}
+\areaset[current]{336pt}{750pt} % ~ 336 * factor 2 + 33 head + 42 \the\footskip
+% \areaset{336pt}{761pt} % 686 (factor 2.2) + 33 head + 42 head \the\footskip 10pt
+\setlength{\marginparwidth}{7em}%
+\setlength{\marginparsep}{2em}%
+
+
+
+% Hyperrefs und URLs
+\usepackage{hyperref}
+\usepackage{url}
+
+% Misc Utility
+\usepackage[cmex10]{amsmath}
+\usepackage{amssymb}
+\usepackage{mdwmath}
+\usepackage{mdwtab}
+\usepackage{eqparbox}
+\usepackage{natbib}
+\usepackage{xspace}
+
+
+% Grafiken/Plots
+\usepackage{flafter}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{tikz}
+\usepackage{wrapfig}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.16}
+\usepgfplotslibrary{groupplots}
+
+% Code Listings
+\usepackage{listings}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+
+% Korrekte Darstellung der Umlaute
+\usepackage[T1]{fontenc}
+\usepackage{ae,aecompl}
+\usepackage[utf8]{inputenc}
+\usepackage[english,german,ngerman]{babel}
+
+% Anführungszeichen
+\usepackage[babel,german=quotes]{csquotes}
+
+% Classic thesis:
+%\usepackage{classicthesis-ldpkg} 
+% Options for classicthesis.sty:
+%\usepackage[eulerchapternumbers,beramono,eulermath,parts]{classicthesis}
+
+% Setup und Finetuning
+\newlength{\abcd} % Für ab..z Längenberechnung
+\newcommand{\myfloatalign}{\centering} % Float alignment
+\setlength{\extrarowheight}{3pt} % Höhere Tabellenzeilen
+
+% Equation-Nummerierung nach <chapter>.<section>.<index>
+\numberwithin{equation}{section} 
+% Table-Nummerierung nach <chapter>.<section>.<index>
+\numberwithin{table}{section} 
+% Figure-Nummerierung nach <chapter>.<section>.<index>
+\numberwithin{figure}{section} 
+
+% Captions dem Original-Template anpassen
+\captionsetup{format=hang,font=small}
+
+% SI Units
+\usepackage{siunitx}
+\sisetup{
+	locale = DE,
+	per-mode = fraction,
+	binary-units = true 
+}
+\DeclareSIUnit\pixel{px}
+
+% Tabellen
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+
+
+% Einbinden der Eidesstattlichen Versicherung
+\usepackage[final]{pdfpages}
+
+% Problematische Dateiendungen beim importieren
+\usepackage{grffile}
+
+% Autoref Algorithmus
+\makeatletter
+\renewcommand{\ALG@name}{Algorithmus}
+\renewcommand{\listalgorithmname}{\ALG@name-Verzeichnis}
+\makeatother
+
+% Absatz Optimierungen
+\clubpenalty = 10000
+\widowpenalty = 10000
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Ab hier können Änderungen erfolgen
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Eigene Pakete
+
+
+% Anpassen von Plots
+\pgfplotsset{ticklabel style={
+		/pgf/number format/fixed,
+		/pgf/number format/precision=4
+	},scaled ticks=false}
+
+
+% Anpassen von Code Listings
+\lstset{
+	frameround=fttt,
+	language=python, % Standard Sprache, kann pro listing überschrieben werden, siehe https://en.wikibooks.org/wiki/LaTeX/Source_Code_Listings
+	numbers=left,
+	breaklines=true,
+	keywordstyle=\color{blue}\bfseries, 
+	basicstyle=\ttfamily\color{black},
+	numberstyle=\color{black}
+}
+
+
+% Abkürzungen
+\newcommand{\tu}{TU Dortmund\@\xspace}
+\newcommand{\vgl}{vgl.\@\xspace} 
+\newcommand{\Vgl}{Vgl.\@\xspace}
+\newcommand{\zB}{\mbox{z.\,B.}\xspace}
+\newcommand{\bspw}{bspw.\@\xspace}
+\newcommand{\idR}{\mbox{i.\,d.\,R.}\xspace}
+\newcommand{\bzw}{bzw.\@\xspace}
+\newcommand{\dahe}{\mbox{d.\,h.}\xspace}
+\newcommand{\etc}{etc.\@\xspace}
+\newcommand{\evtl}{evtl.\@\xspace}
+\newcommand{\ggf}{ggf.\@\xspace}
+\newcommand{\bzgl}{bzgl.\@\xspace}
+\newcommand{\gdw}{gdw.\@\xspace}
+\newcommand{\soben}{s.\nolinebreak[4]\hspace{0.125em}\nolinebreak[4]o.\@\xspace}
+\newcommand{\sunten}{s.\nolinebreak[4]\hspace{0.125em}\nolinebreak[4]u.\@\xspace}
+\newcommand{\iA}{i.\nolinebreak[4]\hspace{0.125em}\nolinebreak[4]A.\@\xspace}
+\newcommand{\sa}{s.\nolinebreak[4]\hspace{0.125em}\nolinebreak[4]a.\@\xspace}
+\newcommand{\ua}{u.\nolinebreak[4]\hspace{0.125em}\nolinebreak[4]a.\@\xspace}
+\newcommand{\oa}{o.\nolinebreak[4]\hspace{0.125em}\nolinebreak[4]Ä.\@\xspace}
+\newcommand{\og}{o.\nolinebreak[4]\hspace{0.125em}\nolinebreak[4]g.\@\xspace}
+\newcommand{\oBdA}{o.\nolinebreak[4]\hspace{0.125em}\nolinebreak[4]B.\nolinebreak[4]\hspace{0.125em}d.\nolinebreak[4]\hspace{0.125em}A.\@\xspace}
+\newcommand{\OBdA}{O.\nolinebreak[4]\hspace{0.125em}\nolinebreak[4]B.\nolinebreak[4]\hspace{0.125em}d.\nolinebreak[4]\hspace{0.125em}A.\@\xspace}
+\newcommand{\etal}{\mbox{\textit{et.\,al.}}\xspace}
+
+
+% Hyperrefs
+\hypersetup{%
+    colorlinks=true, linktocpage=true, pdfstartpage=3, pdfstartview=FitV,%
+    breaklinks=true, pdfpagemode=UseNone, pageanchor=true, pdfpagemode=UseOutlines,%
+    plainpages=false, bookmarksnumbered, bookmarksopen=true, bookmarksopenlevel=1,%
+    hypertexnames=true, pdfhighlight=/O,%hyperfootnotes=true,%nesting=true,%frenchlinks,%
+    urlcolor=RoyalBlue, linkcolor=RoyalBlue, citecolor=webgreen, %pagecolor=RoyalBlue,%
+    % uncomment the following line if you want to have black links (e.g., for printing)
+    %urlcolor=Black, linkcolor=Black, citecolor=Black, %pagecolor=Black,%
+    pdftitle={\Titel},%
+    pdfauthor={\textcopyright\ \Autor, \tu, \Faculty},%
+    pdfsubject={},%
+    pdfkeywords={},%
+    pdfcreator={pdfLaTeX},%
+    pdfproducer={LaTeX with hyperref}%
+}
