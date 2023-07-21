@@ -1,14 +1,49 @@
 % In dieser Datei ist es eigentlich nicht nötig etwas überhalb der Markierung zu verändern
-% Teilweise aus classicthesis (https://bitbucket.org/amiede/classicthesis/src/master/classicthesis.sty) übernommen
+% Teilweise aus classicthesis (https://bitbucket.org/amiede/classicthesis/src/master/classicthesis.sty) übernommen,
+% Anschließend durch den einsatz von KOMA modernisiert.
+
 % Grundlegende Packages
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{textcomp}
 \usepackage[ngerman,german,english]{babel}
 
+
+\usepackage[automark]{scrlayer-scrpage}
+
+
+\KOMAoptions{twoside}
+\KOMAoptions{titlepage}
+\KOMAoptions{headinclude}
+\KOMAoption{fontsize}{11pt}
+\KOMAoption{paper}{a4}
+\KOMAoptions{footinclude}
+\KOMAoption{abstract}{false}
+\KOMAoption{headings}{openright}
+\KOMAoption{numbers}{noenddot}
+\KOMAoptions{DIV=11, BCOR=10mm}
+
+\setlength{\marginparwidth}{7em}%
+\setlength{\marginparsep}{2em}%
+\setcounter{secnumdepth}{2}
+
+\DeclareTOCStyleEntries[raggedpagenumber=true,linefill={\hspace{1.5em}}]{tocline}{part,chapter,section,subsection}
+
+% TODO Living headings vergleichen
+% TODO TOC Style
+% TODO Seitenzahlen
+% TODO Dimensionen vergleichen
+% TODO Subsubsection spacing
+% TODO Paragraph font
+
 % PDF Options
 %\pdfcompresslevel=9
 %\pdfadjustspacing=1 
+
+% Schriftart
+\usepackage{newpxtext} % TODO MATH FONT
+\useosf
+\usepackage[euler-digits]{eulervm}
 
 % Farben
 \usepackage[dvipsnames]{xcolor}
@@ -20,91 +55,64 @@
 \definecolor{red}{rgb}{1,0,0}
 \definecolor{webgreen}{rgb}{0,.5,0}
 \definecolor{webbrown}{rgb}{.6,0,0}
-\definecolor{CTsemi}{gray}{0.55}
-
 
 \usepackage{microtype}
 \usepackage{textcase}
+\usepackage{paralist}
+\renewcommand{\chaptermark}[1]{\markleft{\textls[80]{\normalfont\scshape\MakeTextLowercase{#1}}}}
+\renewcommand{\sectionmark}[1]{\markright{\textls[80]{\normalfont\scshape\MakeTextLowercase{#1}}}}
 
-
-\DeclareRobustCommand{\spacedallcaps}[1]{\textls[160]{\scshape\MakeTextUppercase{#1}}}
-\DeclareRobustCommand{\spacedlowsmallcaps}[1]{\textls[80]{\scshape\MakeTextLowercase{#1}}}
-
-\usepackage[automark]{scrlayer-scrpage}
-\let\MakeMarkcase\spacedlowsmallcaps
-
-\lehead{\mbox{\llap{\small\pagemark\kern2em}\headmark\hfil}}
-\rohead{\mbox{\hfil{\headmark}\rlap{\small\kern2em\pagemark}}}
-\ofoot[\small\pagemark]{}
-\renewcommand{\headfont}{\small}
+\setkomafont{disposition}{\rmfamily\mdseries}
 \DeclareFixedFont{\chapterNumber}{U}{eur}{b}{n}{70}
 
-% Überschriften
-% TODO: Remove titlesec dependency
-	\usepackage[newparttoc]{titlesec}
-	% Chapters
-	\renewcommand{\chaptermark}[1]{\markboth{\spacedlowsmallcaps{#1}}{\spacedlowsmallcaps{#1}}}
-	\titleformat{\chapter}[display]%
-	{\relax}{\mbox{}\marginpar{\vspace*{-3\baselineskip}\color{CTsemi}\chapterNumber\thechapter}}{0pt}%
-	{\raggedright\spacedallcaps}[\normalsize\vspace*{.8\baselineskip}\titlerule]%
-	
-	% Sections
-	\renewcommand{\sectionmark}[1]{\markright{\textsc{\thesection}\enspace\spacedlowsmallcaps{#1}}}
-	\titleformat{\section}
-	{\relax}{\textsc{\MakeTextLowercase{\thesection}}}{1em}{\spacedlowsmallcaps}
-	% Subsections
-	\titleformat{\subsection}
-		{\relax}{\textsc{\MakeTextLowercase{\thesubsection}}}{1em}{\normalsize\itshape}
-	% Subsubsections
-	\titleformat{\subsubsection}
-		{\relax}{\textsc{\MakeTextLowercase{\thesubsubsection}}}{1em}{\normalsize\itshape}
-	% Paragraphs
-	\titleformat{\paragraph}[runin]
-		{\normalfont\normalsize}{\theparagraph}{0pt}{\spacedlowsmallcaps}
-	% Description Labels
-		\renewcommand{\descriptionlabel}[1]{\hspace*{\labelsep}\spacedlowsmallcaps{#1}}   % spacedlowsmallcaps textit textsc
-	% Abstände
-	\titlespacing*{\chapter}{0pt}{1\baselineskip}{1.2\baselineskip}
-	\titlespacing*{\section}{0pt}{1.25\baselineskip}{1\baselineskip}
-	\titlespacing*{\subsection}{0pt}{1.25\baselineskip}{1\baselineskip}
-	\titlespacing*{\paragraph}{0pt}{1\baselineskip}{1\baselineskip}
+\makeatletter
+
+\renewcommand\chapterlinesformat[3]{%
+\Ifstr{#1}{chapter}{%
+	\vspace{-30pt}
+	\mbox{
+		\hspace{\linewidth}
+		\smash{\vspace*{-3\baselineskip}\color{black!55}\chapterNumber#2}
+	}
+	\textls[80]{\MakeTextLowercase{#3}}
+	\par
+	\rule[.3\baselineskip]{\linewidth}{0.4pt}\par\nobreak
+}{\@hangfrom{#2}{#3}}%
+}
+
+\renewcommand\sectionlinesformat[4]{
+\@hangfrom{\hskip #2#3}%
+\Ifstr{#1}{section}%
+	{\textls[80]{\MakeLowercase{#4}}}%
+	{#4}%
+}%
 
 
-% ToC
-	\usepackage[titles]{tocloft}
+\renewcommand\paragraphformat[1]{%
+	{\textls[80]{\MakeLowercase{#1}}}%
+}%
 
-	% Seitenzahlen direkt nach Titel
-	\renewcommand{\cftpartleader}{\hspace{1.5em}}%
-	\renewcommand{\cftpartafterpnum}{\cftparfillskip}%
-	\renewcommand{\cftchapleader}{\hspace{1.5em}}%
-	\renewcommand{\cftchapafterpnum}{\cftparfillskip}%
-	\renewcommand{\cftsubsecleader}{\hspace{1.5em}}%
-	\renewcommand{\cftsubsecafterpnum}{\cftparfillskip}%
+\makeatother
 
-	% Chapter Formatierung
-	\renewcommand{\cftchappresnum}{\spacedlowsmallcaps}%
-	\renewcommand{\cftchapaftersnumb}{\spacedlowsmallcaps}%
-	\renewcommand{\cftchapfont}{\spacedlowsmallcaps}%
-	\renewcommand{\cftchappagefont}{\normalfont}%
-
-	% Section Formatierung
-	\renewcommand{\cftsecpresnum}{\scshape\MakeTextLowercase}%
-	\renewcommand{\cftsecfont}{\normalfont}%
-	\renewcommand{\cftsecpagefont}{\normalfont}%
-
-	\renewcommand{\cftsecleader}{\hspace{1.5em}}%
-	\renewcommand{\cftsecafterpnum}{\cftparfillskip}%
-	
-	% Subsection Formatierung
-	\renewcommand{\cftsubsecpresnum}{\scshape\MakeTextLowercase}%
-	\renewcommand{\cftsubsecfont}{\normalfont}%
-
-
-% Seitendimensionen
-\KOMAoptions{DIV=11, BCOR=10mm}
-\setlength{\marginparwidth}{7em}%
-\setlength{\marginparsep}{2em}%
-
+\RedeclareSectionCommand[
+	font=\LARGE\scshape\mdseries
+	]{chapter}
+\RedeclareSectionCommand[
+	font=\normalfont\scshape
+	]{section}
+\RedeclareSectionCommand[
+	font=\normalfont\normalsize\itshape
+	]{subsection}
+\RedeclareSectionCommand[
+	font=\normalfont\normalsize\itshape
+	]{subsubsection}
+\RedeclareSectionCommand[
+	font=\normalfont\scshape
+	]{paragraph}
+\renewcommand{\sectionformat}{\thesection\hspace{1em}}
+\renewcommand{\subsectionformat}{\thesubsection\hspace{1em}}
+%\renewcommand{\subsubsectionformat}{\thesubsubsection asd\hspace{1em}}
+\renewcommand{\descriptionlabel}[1]{\hspace*{\labelsep}{\textls[80]{\scshape\MakeTextLowercase{#1}}}}
 
 % Hyperrefs und URLs
 \usepackage{hyperref}
@@ -119,23 +127,19 @@
 \usepackage{natbib}
 \usepackage{xspace}
 
-% Schriftart
-\usepackage{newpxtext}
-\useosf
-\usepackage[euler-digits]{eulervm}
-
 % Grafiken/Plots
 \usepackage{flafter}
 \usepackage{caption}
 \usepackage{subcaption}
 \usepackage{tikz}
+\usetikzlibrary{arrows.meta}
 \usepackage{wrapfig}
 \usepackage{pgfplots}
 \pgfplotsset{compat=1.15}
 \usepgfplotslibrary{groupplots}
 
-% Code Listings
-\usepackage{listings}
+% Code Listings und Algorithms
+\usepackage{minted}
 \usepackage{algorithm}
 \usepackage{algorithmic}
 
@@ -144,11 +148,6 @@
 
 % Anführungszeichen
 \usepackage[babel,german=quotes]{csquotes}
-
-% Classic thesis:
-%\usepackage{classicthesis-ldpkg} 
-% Options for classicthesis.sty:
-%\usepackage[eulerchapternumbers,beramono,eulermath,parts]{classicthesis}
 
 % Setup und Finetuning
 \newlength{\abcd} % Für ab..z Längenberechnung
@@ -169,8 +168,7 @@
 \usepackage{siunitx}
 \sisetup{
 	locale = DE,
-	per-mode = fraction,
-	binary-units = true 
+	per-mode = fraction 
 }
 \DeclareSIUnit\pixel{px}
 
@@ -195,17 +193,20 @@
 \renewcommand{\listalgorithmname}{\ALG@name-Verzeichnis}
 \makeatother
 
+% Autoref Listing
+\providecommand*{\listingautorefname}{Listing}
+
+
 % Absatz Optimierungen
 \clubpenalty = 10000
 \widowpenalty = 10000
 
+% Programming Font
+\usepackage{courier}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% Ab hier können Änderungen erfolgen
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% Eigene Pakete
-
+\usepackage{todonotes}
+\usepackage[nolist,nohyperlinks]{acronym}
 
 % Anpassen von Plots
 \pgfplotsset{ticklabel style={
@@ -213,18 +214,12 @@
 		/pgf/number format/precision=4
 	},scaled ticks=false}
 
-
-% Anpassen von Code Listings
-\lstset{
-	frameround=fttt,
-	language=python, % Standard Sprache, kann pro listing überschrieben werden, siehe https://en.wikibooks.org/wiki/LaTeX/Source_Code_Listings
-	numbers=left,
-	breaklines=true,
-	keywordstyle=\color{blue}\bfseries, 
-	basicstyle=\ttfamily\color{black},
-	numberstyle=\color{black}
+\setminted{
+	breaklines,
+	fontsize=\footnotesize,
+	frame=single
 }
-
+\setmintedinline{breaklines, breakafter=_}
 
 % Abkürzungen
 \newcommand{\tu}{TU Dortmund\@\xspace}
@@ -233,6 +228,7 @@
 \newcommand{\zB}{\mbox{z.\,B.}\xspace}
 \newcommand{\bspw}{bspw.\@\xspace}
 \newcommand{\idR}{\mbox{i.\,d.\,R.}\xspace}
+\newcommand{\insb}{insb.\xspace}
 \newcommand{\bzw}{bzw.\@\xspace}
 \newcommand{\dahe}{\mbox{d.\,h.}\xspace}
 \newcommand{\etc}{etc.\@\xspace}
@@ -259,8 +255,6 @@
     plainpages=false, bookmarksnumbered, bookmarksopen=true, bookmarksopenlevel=1,%
     hypertexnames=true, pdfhighlight=/O,%hyperfootnotes=true,%nesting=true,%frenchlinks,%
     urlcolor=RoyalBlue, linkcolor=RoyalBlue, citecolor=webgreen, %pagecolor=RoyalBlue,%
-    % uncomment the following line if you want to have black links (e.g., for printing)
-    %urlcolor=Black, linkcolor=Black, citecolor=Black, %pagecolor=Black,%
     pdftitle={\Titel},%
     pdfauthor={\textcopyright\ \Autor, \tu, \Faculty},%
     pdfsubject={},%
